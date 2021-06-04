@@ -57,4 +57,37 @@ Context With Value
 - Untuk menambah value ke context, kita bisa menambahkan function context.WithValue(parent, key, value)
  */
 
+func TestContextWithValue(t *testing.T) {
+	contextA := context.Background()
+
+	// contect A mempunyai 2 child
+	contextB := context.WithValue(contextA, "b", "B")
+	contextC := context.WithValue(contextA, "c", "C")
+
+	// context B mempunyai 2 child
+	contextD := context.WithValue(contextB, "d", "D")
+	contextE := context.WithValue(contextB, "e", "E")
+
+	// context C mempunyai 1 child
+	contextF := context.WithValue(contextC, "f", "F")
+
+	// Contect F mempunyai 1 child
+	contextG := context.WithValue(contextF, "g", "G")
+
+	fmt.Println("Context A :", contextA)
+	fmt.Println("Context B :", contextB)
+	fmt.Println("Context C :", contextC)
+	fmt.Println("Context D :", contextD)
+	fmt.Println("Context E :", contextE)
+	fmt.Println("Context F :", contextF)
+	fmt.Println("Context G :", contextG)
+
+	fmt.Println(contextF.Value("f")) // return F karena dia value dari context itu sendiri
+	fmt.Println(contextF.Value("c")) // return C karena context F mempunyai parent C
+	fmt.Println(contextF.Value("b")) // return nil karena Context F tidak memiliki parent B
+	fmt.Println(contextA.Value("c")) // return nil karena context A (parent) tidak bisa membaca data child maupun sub child
+	// jadi ketika get value selalu tanya parent apakah datanya ada
+}
+
+
 

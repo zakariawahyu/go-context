@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"testing"
 )
+
 /**
 Membuat context
 - Karena context adalah sebuah interface, untuk membuat context kita butuh sebuah struct yang sesuai dengan kontrak interface Context
@@ -16,7 +17,7 @@ Function membaut context
 							  Biasanay digunakan di main function atau dalam test, atau dalam awal proses request terjadi.
 - context.TODO()			= Membuat context kosong seperti Background(), namun biasanya penggunaan todo digunakan ketika belum jelas
 							  context apa yang ingin digunakan.
- */
+*/
 
 /**
 Parent dan Child Context
@@ -40,7 +41,7 @@ Hubungan antara Parent Context dan Child Context
 Immutable
 - Context merupakan object yang immutable, artinya setelah contect dibuat, dia tidak bisa diubah lagi
 - Ketika kita menambahkan value ke dalam context, atau menambahkan pengaturan timeout dan lainnya. secara otomatis akan membentuk child context baru, bukan merubah context tersebut
- */
+*/
 func TestContext(t *testing.T) {
 	background := context.Background()
 	fmt.Println(background)
@@ -55,7 +56,7 @@ Context With Value
 - Kita bisa menambahkan value dengan data pair (key -value) ke dalam context
 - Saat kita menambahkan value ke context, secara otomatis akan tercipta child context baru, artinya original contextnya tidak akan berubah sama sekali. karena ini sifatnya immutable
 - Untuk menambah value ke context, kita bisa menambahkan function context.WithValue(parent, key, value)
- */
+*/
 
 func TestContextWithValue(t *testing.T) {
 	contextA := context.Background()
@@ -82,12 +83,15 @@ func TestContextWithValue(t *testing.T) {
 	fmt.Println("Context F :", contextF)
 	fmt.Println("Context G :", contextG)
 
+	/**
+	Context Get Value
+		- Untuk pertama kali ambil value, maka akan ambil context dia terlebih dahulu
+		- Jika value di context tidak ada maka akan naik ke parentnya
+		- JIka di parent tidak ada maka akan naik lagi parent hingga menemukan valuenya
+		- Jika parent tertinggi tetap tidak mendaptkan value maka akan return nil
+	*/
 	fmt.Println(contextF.Value("f")) // return F karena dia value dari context itu sendiri
 	fmt.Println(contextF.Value("c")) // return C karena context F mempunyai parent C
 	fmt.Println(contextF.Value("b")) // return nil karena Context F tidak memiliki parent B
 	fmt.Println(contextA.Value("c")) // return nil karena context A (parent) tidak bisa membaca data child maupun sub child
-	// jadi ketika get value selalu tanya parent apakah datanya ada
 }
-
-
-

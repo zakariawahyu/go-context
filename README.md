@@ -1,7 +1,7 @@
 **Pengenalan Golang Context**
 - Context merupakan sebuah data yang membawa value, sinyal cancel, sinyal timeout, dan sinyal deadline
 - Context biasanya dibuat per request (misal setiap ada request masuk ke server web melalui http request)
-- Cobtext digunakan untuk mempermudah kita meneruskan value dan sinyal ke dalam  proses
+- Context digunakan untuk mempermudah kita meneruskan value dan sinyal ke dalam proses
 
 **Kenapa Context Perlu Dipelajari ?**
 - Context di Golang biasa digunakan untuk mengirim data request atau sinyal ke proses lain
